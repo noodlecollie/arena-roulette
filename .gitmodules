@@ -1,0 +1,3 @@
+[submodule "core/addons/sourcemod/scripting/libraries"]
+	path = core/addons/sourcemod/scripting/libraries
+	url = https://github.com/noodlecollie/sourcemod-libraries.git
