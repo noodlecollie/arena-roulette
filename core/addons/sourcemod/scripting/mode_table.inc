@@ -63,4 +63,44 @@ stock int ARMode_ChooseLeastPlayedMode()
 	// Find number of modes with least number of plays
 	// Put all these modes into an array (of MAX_MODES)
 	// Choose a random index into this array
+
+	int leastPlayedModes[MAX_MODES];
+	int numModes = ARMode_FindLeastPlayedModes(leastPlayedModes);
+
+	if ( numModes < 1 )
+	{
+		return -1;
+	}
+
+	return leastPlayedModes[GetRandomInt(0, numModes - 1)];
+}
+
+// Assumes that modes array is of length MAX_MODES
+stock int ARMode_FindLeastPlayedModes(int[] modes)
+{
+	int numModes = 0;
+
+	// Start off at int max
+	int minNumPlays = 2147483647;
+
+	for ( int index = 0; index < MAX_MODES; ++index )
+	{
+		if ( GlobalModeTable[index].implementerPlugin == INVALID_HANDLE )
+		{
+			continue;
+		}
+
+		if ( GlobalModeTable[index].numTimesPlayed < minNumPlays )
+		{
+			minNumPlays = GlobalModeTable[index].numTimesPlayed;
+			numModes = 1;
+			modes[numModes - 1] = index;
+		}
+		else if ( GlobalModeTable[index].numTimesPlayed == minNumPlays )
+		{
+			modes[numModes++] = index;
+		}
+	}
+
+	return numModes;
 }
