@@ -9,3 +9,5 @@
 
 #define MAX_MODES 32
 #define MAX_MODE_NAME_LENGTH 32
+
+#define INT_MAX 2147483647

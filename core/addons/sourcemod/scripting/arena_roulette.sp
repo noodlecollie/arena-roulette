@@ -5,11 +5,15 @@
 #include "pluginctl/pluginctl.inc"
 #include "plugin_info.inc"
 #include "ar_natives.inc"
+#include "ar_forwards.inc"
 #include "ar_events.inc"
+
+typedef TempFunc = function bool();
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	CreateNatives();
+	CreateForwards();
 	RegPluginLibrary(LIBRARY_NAME);
 
 	return APLRes_Success;
@@ -33,9 +37,10 @@ public void OnMapStart()
 	// Clear the "num times played" count for all modes, so that
 	// they may be selected again at random.
 	ARMode_ClearAllPlayCounters();
+	ARMode_PopulateAndRandomiseLeastPlayedArray();
 }
 
 static stock void OnPluginEnabledStateChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
-	// Nothing here yet
+	// Nothing yet
 }

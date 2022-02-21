@@ -31,7 +31,8 @@ stock any Native_RegisterMode(Handle plugin, int numParams)
 		return false;
 	}
 
-	GlobalModeTable[entryIndex].implementerPlugin = plugin;
+	ARMode_Table[entryIndex].implementerPlugin = plugin;
+	++ARMode_TableCount;
 
 	if ( numParams % 2 != 0 )
 	{
@@ -57,7 +58,7 @@ stock any Native_RegisterMode(Handle plugin, int numParams)
 
 		Function fwdFunc = GetNativeFunction(index + 1);
 
-		GlobalModeTable[entryIndex].SetForward(view_as<ArenaRoulette_ForwardType>(fwdType), fwdFunc);
+		ARMode_Table[entryIndex].SetForward(view_as<ArenaRoulette_ForwardType>(fwdType), fwdFunc);
 	}
 
 	return true;

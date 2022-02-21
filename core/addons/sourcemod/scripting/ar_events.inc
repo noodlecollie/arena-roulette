@@ -7,6 +7,8 @@
 #pragma semicolon 1
 #pragma newdecls required
 
+#include "mode_table.inc"
+
 stock void HookAllEvents()
 {
 	HookEventEx("teamplay_round_start", Event_RoundStart, EventHookMode_Post);
@@ -14,4 +16,12 @@ stock void HookAllEvents()
 
 public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 {
+	int modeIndex = ARMode_ChooseLeastPlayedMode();
+
+	if ( modeIndex < 0 )
+	{
+		return;
+	}
+
+	// TODO: Continue
 }
