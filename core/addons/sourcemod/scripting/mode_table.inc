@@ -11,6 +11,7 @@
 #include "arena_roulette.inc"
 #include "ar_defs.inc"
 #include "ar_forwards.inc"
+#include "mode_stubs.inc"
 
 enum struct ARMode
 {
@@ -19,20 +20,32 @@ enum struct ARMode
 
 	ArenaRouletteFwd_CanSelectMode canSelectMode;
 
-	void SetForward(ArenaRoulette_ForwardType fwdType, Function fwdFunction)
+	void Reset()
 	{
+		this.implementerPlugin = null;
+		this.numTimesPlayed = 0;
+		this.canSelectMode = ARModeStub_CanSelectMode;
+	}
+
+	bool SetForward(ArenaRoulette_Property fwdType, Function fwdFunction)
+	{
+		bool success = true;
+
 		switch ( fwdType )
 		{
-			case ArenaRouletteFwdType_CanSelectMode:
+			case ArenaRouletteProperty_FwdCanSelectMode:
 			{
 				this.canSelectMode = view_as<ArenaRouletteFwd_CanSelectMode>(fwdFunction);
 			}
 
 			default:
 			{
-				LogError("ARMode::SetForward: Cannot set forward for unrecognised index %d", view_as<int>(fwdType));
+				LogError("Cannot set forward for unrecognised index %d", view_as<int>(fwdType));
+				success = false;
 			}
 		}
+
+		return success;
 	}
 }
 
@@ -65,11 +78,23 @@ stock int ARMode_FindNextFreeModeTableEntry()
 	{
 		if ( ARMode_Table[index].implementerPlugin == null )
 		{
+			ARMode_AcquireTableEntry(index);
 			return index;
 		}
 	}
 
 	return -1;
+}
+
+stock void ARMode_AcquireTableEntry(int index)
+{
+	if ( index < 0 || index >= MAX_MODES)
+	{
+		return;
+	}
+
+	ARMode_Table[index].Reset();
+	++ARMode_TableCount;
 }
 
 stock void ARMode_ClearAllPlayCounters()

@@ -11,16 +11,16 @@
 #define PLUGIN_AUTHOR "NoodleCollie"
 #define PLUGIN_DESCRIPTION "Play a variety of arena mini-modes."
 #define PLUGIN_VERSION "1.0.0.0"
-#define PLUGIN_URL "https://github.com/noodlecollie/smplugins/tree/master/ArenaRoulette"
+#define PLUGIN_URL "https://github.com/noodlecollie/arena_roulette"
 
 #define PLUGIN_IDENT "arenaroulette"
 #define LIBRARY_NAME "ArenaRoulette"
 
 public Plugin myinfo =
 {
-    name = PLUGIN_NAME,
-    author = PLUGIN_AUTHOR,
-    description = PLUGIN_DESCRIPTION,
-    version = PLUGIN_VERSION,
-    url = PLUGIN_URL
+	name = PLUGIN_NAME,
+	author = PLUGIN_AUTHOR,
+	description = PLUGIN_DESCRIPTION,
+	version = PLUGIN_VERSION,
+	url = PLUGIN_URL
 }

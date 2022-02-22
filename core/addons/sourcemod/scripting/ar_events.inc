@@ -18,6 +18,8 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 {
 	int modeIndex = ARMode_ChooseLeastPlayedMode();
 
+	LogMessage("Arena Roulette chose mode %d to play for this round.", modeIndex);
+
 	if ( modeIndex < 0 )
 	{
 		return;

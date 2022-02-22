@@ -27,17 +27,16 @@ stock any Native_RegisterMode(Handle plugin, int numParams)
 
 	if ( entryIndex < 0 )
 	{
-		LogError("Could not find free entry in mode table to register mode for plugin %s", modeName);
+		LogError("Could not find free entry in mode table to register mode for plugin \"%s\"", modeName);
 		return false;
 	}
 
 	ARMode_Table[entryIndex].implementerPlugin = plugin;
-	++ARMode_TableCount;
 
 	if ( numParams % 2 != 0 )
 	{
-		LogMessage(
-			"WARNING: ArenaRoulette_RegisterMode called by plugin %s with incorrect number of arguments," ...
+		LogError(
+			"ArenaRoulette_RegisterMode called by plugin \"%s\" with incorrect number of arguments," ...
 			"truncating last argument.",
 			modeName
 		);
@@ -47,19 +46,20 @@ stock any Native_RegisterMode(Handle plugin, int numParams)
 
 	for ( int index = 0; index < numParams; index += 2 )
 	{
-		int fwdType = GetNativeCell(index);
+		int propertyType = GetNativeCell(index);
 
-		if ( fwdType <= view_as<int>(ArenaRouletteFwdType_Invalid) ||
-		     fwdType >= view_as<int>(ArenaRouletteFwdType__Max__DoNotUse) )
+		if ( view_as<int>(propertyType) >= view_as<int>(_ArenaRouletteProperty__FwdBegin) &&
+		     view_as<int>(propertyType) < view_as<int>(_ArenaRouletteProperty__FwdEnd) )
 		{
-			LogMessage("WARNING: Skipping unrecognised forward index %d", fwdType);
-			continue;
+			ARMode_Table[entryIndex].SetForward(view_as<ArenaRoulette_Property>(propertyType), GetNativeFunction(index + 1));
 		}
-
-		Function fwdFunc = GetNativeFunction(index + 1);
-
-		ARMode_Table[entryIndex].SetForward(view_as<ArenaRoulette_ForwardType>(fwdType), fwdFunc);
+		else
+		{
+			LogError("Plugin \"%s\" provided unrecognised property %d", modeName, view_as<int>(propertyType));
+		}
 	}
+
+	LogMessage("Registered Arena Roulette mode \"%s\"", modeName);
 
 	return true;
 }

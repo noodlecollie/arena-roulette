@@ -23,7 +23,6 @@ public void OnPluginStart()
 {
 	LogMessage("Starting: %s v%s", PLUGIN_NAME, PLUGIN_VERSION);
 	PCtl_Initialise(PLUGIN_IDENT, PLUGIN_VERSION, OnPluginEnabledStateChanged);
-
 	HookAllEvents();
 }
 
