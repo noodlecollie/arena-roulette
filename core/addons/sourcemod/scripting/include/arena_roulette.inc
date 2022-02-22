@@ -7,23 +7,12 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-enum ArenaRoulette_Property
+enum ArenaRoulette_APIVersion
 {
-	ArenaRouletteProperty_Invalid = 0,
-
-	ArenaRouletteProperty_Version = 1,
-
-	ArenaRouletteProperty_FwdCanSelectMode = 2,
-
-	// For internal use only
-	_ArenaRouletteProperty__Max,
-	_ArenaRouletteProperty__FwdBegin = ArenaRouletteProperty_FwdCanSelectMode,
-	_ArenaRouletteProperty__FwdEnd = _ArenaRouletteProperty__Max
+	ArenaRoulette_APIV1 = 1
 };
 
-typedef ArenaRouletteFwd_CanSelectMode = function bool ();
+native bool ArenaRoulette_RegisterMode(ArenaRoulette_APIVersion version);
 
-// Expects pairs of arguments. The first of each pair should be
-// a ArenaRoulette_ForwardType value, and the second should be
-// the function corresponding to this forward.
-native bool ArenaRoulette_RegisterMode(any ...);
+typedef ArenaRouletteFwd_CanSelectMode = function bool ();
+native bool ArenaRoulette_SetForward_CanSelectMode(ArenaRouletteFwd_CanSelectMode fwd);

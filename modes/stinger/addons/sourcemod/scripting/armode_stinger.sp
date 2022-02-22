@@ -15,7 +15,13 @@ public Plugin myinfo =
 
 public void OnAllPluginsLoaded()
 {
-	ArenaRoulette_RegisterMode(ArenaRouletteProperty_FwdCanSelectMode, CanSelectMode);
+	if ( !ArenaRoulette_RegisterMode(ArenaRoulette_APIV1) )
+	{
+		LogError("Could not register mode.");
+		return;
+	}
+
+	ArenaRoulette_SetForward_CanSelectMode(CanSelectMode);
 }
 
 stock bool CanSelectMode()

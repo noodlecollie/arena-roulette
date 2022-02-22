@@ -15,15 +15,29 @@
 stock void CreateNatives()
 {
 	CreateNative("ArenaRoulette_RegisterMode", Native_RegisterMode);
+	CreateNative("ArenaRoulette_SetForward_CanSelectMode", Native_SetForward_CanSelectMode);
 }
 
 stock any Native_RegisterMode(Handle plugin, int numParams)
 {
 	char modeName[MAX_MODE_NAME_LENGTH] = { '\0' };
-
 	GetPluginInfo(plugin, PlInfo_Name, modeName, sizeof(modeName));
 
-	int entryIndex = ARMode_FindNextFreeModeTableEntry();
+	int apiVersion = GetNativeCell(1);
+
+	if ( apiVersion != ARENAROULETTE_TARGET_API_VERSION )
+	{
+		LogError(
+			"Not registering mode \"%s\": mode specified API version %d when the actual API version is %d",
+			modeName,
+			apiVersion,
+			ARENAROULETTE_TARGET_API_VERSION
+		);
+
+		return false;
+	}
+
+	int entryIndex = ARMode_AcquireNextFreeModeTableEntry();
 
 	if ( entryIndex < 0 )
 	{
@@ -33,33 +47,24 @@ stock any Native_RegisterMode(Handle plugin, int numParams)
 
 	ARMode_Table[entryIndex].implementerPlugin = plugin;
 
-	if ( numParams % 2 != 0 )
-	{
-		LogError(
-			"ArenaRoulette_RegisterMode called by plugin \"%s\" with incorrect number of arguments," ...
-			"truncating last argument.",
-			modeName
-		);
+	LogMessage("Registered Arena Roulette mode \"%s\" to index %d", modeName, entryIndex);
+	return true;
+}
 
-		numParams = (numParams / 2) * 2;
+stock any Native_SetForward_CanSelectMode(Handle plugin, int numParams)
+{
+	int index = ARMode_FindEntryByPluginHandle(plugin);
+
+	if ( index < 0 )
+	{
+		char modeName[MAX_MODE_NAME_LENGTH] = { '\0' };
+		GetPluginInfo(plugin, PlInfo_Name, modeName, sizeof(modeName));
+
+		LogError("Could not set CanSelectMode forward for mode \"%s\", as the mode was not registered.", modeName);
+		return false;
 	}
 
-	for ( int index = 0; index < numParams; index += 2 )
-	{
-		int propertyType = GetNativeCell(index);
-
-		if ( view_as<int>(propertyType) >= view_as<int>(_ArenaRouletteProperty__FwdBegin) &&
-		     view_as<int>(propertyType) < view_as<int>(_ArenaRouletteProperty__FwdEnd) )
-		{
-			ARMode_Table[entryIndex].SetForward(view_as<ArenaRoulette_Property>(propertyType), GetNativeFunction(index + 1));
-		}
-		else
-		{
-			LogError("Plugin \"%s\" provided unrecognised property %d", modeName, view_as<int>(propertyType));
-		}
-	}
-
-	LogMessage("Registered Arena Roulette mode \"%s\"", modeName);
+	ARMode_Table[index].canSelectMode = view_as<ArenaRouletteFwd_CanSelectMode>(GetNativeFunction(1));
 
 	return true;
 }

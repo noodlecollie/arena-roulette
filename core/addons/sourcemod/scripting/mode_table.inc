@@ -26,27 +26,6 @@ enum struct ARMode
 		this.numTimesPlayed = 0;
 		this.canSelectMode = ARModeStub_CanSelectMode;
 	}
-
-	bool SetForward(ArenaRoulette_Property fwdType, Function fwdFunction)
-	{
-		bool success = true;
-
-		switch ( fwdType )
-		{
-			case ArenaRouletteProperty_FwdCanSelectMode:
-			{
-				this.canSelectMode = view_as<ArenaRouletteFwd_CanSelectMode>(fwdFunction);
-			}
-
-			default:
-			{
-				LogError("Cannot set forward for unrecognised index %d", view_as<int>(fwdType));
-				success = false;
-			}
-		}
-
-		return success;
-	}
 }
 
 stock ARMode ARMode_Table[MAX_MODES];
@@ -72,7 +51,7 @@ stock int ARMode_FindEntryByPluginHandle(Handle pluginHandle)
 	return -1;
 }
 
-stock int ARMode_FindNextFreeModeTableEntry()
+stock int ARMode_AcquireNextFreeModeTableEntry()
 {
 	for ( int index = 0; index < MAX_MODES; ++index )
 	{

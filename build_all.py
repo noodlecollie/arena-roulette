@@ -16,6 +16,9 @@ def compile(relPath):
 	pluginLibrariesDir = os.path.join(scriptingDir, "libraries")
 	arenaRouletteIncludeDir = os.path.join(SCRIPT_DIR, "core", "addons", "sourcemod", "scripting", "include")
 
+	if not os.path.isdir(pluginsDir):
+		os.makedirs(pluginsDir, exist_ok=True)
+
 	print("Compiling:", scriptPath)
 
 	args = \
