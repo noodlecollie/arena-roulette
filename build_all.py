@@ -68,14 +68,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-# subprocess.call(
-# 	[ \
-# 		sys.argv[1],
-# 		-o/home/vesper/Documents/arena-roulette/modes/stinger/addons/sourcemod/plugins/armode_stinger.smx \
-# 		-i/home/vesper/sourcemodAPI/addons/sourcemod/scripting/include \
-# 		-i/home/vesper/Documents/arena-roulette/modes/stinger/addons/sourcemod/scripting/include \
-# 		-i/home/vesper/Documents/arena-roulette/modes/stinger/addons/sourcemod/scripting \
-# 		-O2 -v2 -E -i/home/vesper/Documents/arena-roulette/core/addons/sourcemod/scripting/libraries -i/home/vesper/Documents/arena-roulette/core/addons/sourcemod/scripting/include
-# 	]
-# )
