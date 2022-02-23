@@ -62,7 +62,7 @@ def main():
 			if not compile(os.path.join("modes", entry, "addons", "sourcemod", "scripting", f"armode_{entry}.sp")):
 				failed.append(entry)
 
-	if len(entry) > 0:
+	if len(failed) > 0:
 		print("The following modes failed to compile:", ", ".join(failed), file=sys.stderr)
 		sys.exit(1)
 

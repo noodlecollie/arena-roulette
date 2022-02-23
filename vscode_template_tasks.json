@@ -8,7 +8,7 @@
 
 		"presentation":
 		{
-		  "panel": "new"
+		  "panel": "dedicated"
 		},
 
 		"osx":
