@@ -39,7 +39,7 @@ public void OnMapStart()
 	ARMode_PopulateAndRandomiseLeastPlayedArray();
 }
 
-static stock void OnPluginEnabledStateChanged(ConVar convar, const char[] oldValue, const char[] newValue)
+stock void OnPluginEnabledStateChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
 	// Nothing yet
 }

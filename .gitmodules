@@ -1,3 +1,9 @@
 [submodule "core/addons/sourcemod/scripting/libraries"]
 	path = core/addons/sourcemod/scripting/libraries
 	url = https://github.com/noodlecollie/sourcemod-libraries.git
+[submodule "modes/stinger/addons/sourcemod/libraries"]
+	path = modes/stinger/addons/sourcemod/libraries
+	url = https://github.com/noodlecollie/sourcemod-libraries.git
+[submodule "modes/stinger/addons/sourcemod/scripting/libraries"]
+	path = modes/stinger/addons/sourcemod/scripting/libraries
+	url = https://github.com/noodlecollie/sourcemod-libraries.git
